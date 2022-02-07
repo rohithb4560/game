@@ -4,6 +4,8 @@ import './style.css';
 export default function App() {
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(1);
+  const [ratingcount, setRatingcount] = useState(2);
+  const [pricecount, setPricecount] = useState(2);
   const [game, setGame] = useState({
     gamename: '',
     gameauthor: '',
@@ -50,18 +52,30 @@ export default function App() {
       });
   };
   const sortByRating = () => {
+    setRatingcount(count + 1);
     fetch('http://localhost:3001/games')
       .then((res) => res.json())
       .then((res) => {
-        res.sort((a, b) => b.gamerating - a.gamerating);
+        if (ratingcount % 4 == 0) {
+          res.sort((a, b) => b.gamerating - a.gamerating);
+        } else {
+          res.sort((a, b) => a.gamerating - b.gamerating);
+        }
+
         setItems(res);
       });
   };
   const sortByPrice = () => {
+    setPricecount(count + 1);
     fetch('http://localhost:3001/games')
       .then((res) => res.json())
       .then((res) => {
-        res.sort((a, b) => b.gameprice - a.gameprice);
+        if (pricecount % 4 == 0) {
+          res.sort((a, b) => b.gameprice - a.gameprice);
+        } else {
+          res.sort((a, b) => a.gameprice - b.gameprice);
+        }
+
         setItems(res);
       });
   };
